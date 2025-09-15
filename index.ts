@@ -137,11 +137,11 @@ export default class client {
   }
 
   private networkError(serviceName: string, methodName: string): result<any> {
-    return this.after(serviceName, methodName, { id: "", status: resultStatus.networkError, data: null, msg: null, code: null })
+    return this.after(serviceName, methodName, { id: "", status: resultStatus.networkError, data: null, msg: "fun: Network anomaly", code: null })
   }
 
   private timeoutError(serviceName: string, methodName: string): result<any> {
-    return this.after(serviceName, methodName, { id: "", status: resultStatus.timeoutError, data: null, msg: null, code: null })
+    return this.after(serviceName, methodName, { id: "", status: resultStatus.timeoutError, data: null, msg: "fun: Network timeout", code: null })
   }
 
   private after<T>(serviceName: string, methodName: string, result: result<T>): result<T> {
