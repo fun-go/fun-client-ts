@@ -32,11 +32,11 @@ interface workerType {
   data: any
 }
 
-interface requestInfo<T> {
+interface requestInfo {
   id: string
   methodName: string
   serviceName: string
-  dto?: T | undefined
+  dto?: any | undefined
   state?: { [key: string]: string }
   type: requestType
   func?: (data: result<any>) => void
@@ -59,7 +59,7 @@ export class on<T> {
 export default class client {
   private worker: globalThis.MessagePort | Worker | null = null;
   private status: status = status.close;
-  private requestList: requestInfo<any>[] = [];
+  private requestList: requestInfo[] = [];
   private formerCall: ((serviceName: string, methodName: string, state: Map<string, string>) => void) | null = null;
   private afterCall: ((serviceName: string, methodName: string, result: result<any>) => result<any>) | null = null;
   private openCall: (() => void)[] = [];
@@ -123,7 +123,7 @@ export default class client {
 
   private getData(data: result<any>) {
     const index = this.requestList.findIndex((request) => request.id === data.id)
-    const request: requestInfo<any> = this.requestList[index]
+    const request: requestInfo = this.requestList[index]
     if (request.type === requestType.funcType) {
       request.func && request.func(this.after(request.serviceName, request.methodName, data))
     } else {
@@ -153,7 +153,7 @@ export default class client {
     return new Promise<result<T> | (() => void)>((resolve) => {
       const id: string = nanoid();
       const state = new Map<string, any>();
-      let requestInfo: requestInfo<any> = {
+      let requestInfo: requestInfo = {
         id,
         methodName: methodName,
         serviceName: serviceName,
@@ -196,7 +196,7 @@ export default class client {
         }, 2000);
         resolve(() => {
           const state = new Map<string, any>();
-          let requestInfo: requestInfo<any> = {
+          let requestInfo: requestInfo = {
             id,
             methodName: methodName,
             serviceName: serviceName,
