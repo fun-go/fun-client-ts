@@ -177,8 +177,8 @@ export default class client {
       this.requestList.push(requestInfo);
       const handleTimeout = (isNetworkError: boolean, timeout: number) => {
         setTimeout(() => {
-          const expectedStatus = isNetworkError ? status.close : status.susses;
-          if (this.status === expectedStatus && this.isRequestId(id)) {
+          const expectedStatus = (isNetworkError && status.close) || !isNetworkError
+          if (expectedStatus && this.isRequestId(id)) {
             resolve(isNetworkError ? this.networkError(serviceName, methodName) : this.timeoutError(serviceName, methodName));
             this.deleteRequest(id);
           }
