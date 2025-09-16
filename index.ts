@@ -208,6 +208,7 @@ export default class client {
           if (this.status !== status.close) {
             this.worker?.postMessage(JSON.stringify(requestInfo));
           }
+          this.deleteRequest(id);
         })
       }
     })
