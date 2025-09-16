@@ -207,7 +207,6 @@ export default class client {
           requestInfo.state = Object.fromEntries(state)
           if (this.status !== status.close) {
             this.worker?.postMessage(JSON.stringify(requestInfo));
-            this.requestList.push(requestInfo);
           }
         })
       }
