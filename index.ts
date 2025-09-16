@@ -94,11 +94,11 @@ export default class client {
     switch (data.type) {
       case workerDataType.open:
         that.status = status.susses
+          that.openCall.forEach((openCall) => {
+          openCall()
+        })
         that.requestList.forEach((requestInfo) => {
           that.worker?.postMessage(JSON.stringify(requestInfo));
-        })
-        that.openCall.forEach((openCall) => {
-          openCall()
         })
         break
       case workerDataType.close:
